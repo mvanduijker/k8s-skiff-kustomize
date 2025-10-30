@@ -1,0 +1,78 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: skiff
+  name: skiff
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: skiff
+  template:
+    metadata:
+      labels:
+        app: skiff
+    spec:
+      volumes:
+        - name: documentroot
+          emptyDir: {}
+      initContainers:
+        - image: alpine/git
+          name: git-init
+          args:
+            - clone
+            - -b
+            - $(GIT_BRANCH)
+            - $(GIT_URL)
+            - .
+          env:
+            - name: GIT_BRANCH
+              valueFrom:
+                configMapKeyRef:
+                  name: skiff
+                  key: git-branch
+            - name: GIT_URL
+              valueFrom:
+                secretKeyRef:
+                  name: skiff
+                  key: git-url
+          volumeMounts:
+            - name: documentroot
+              mountPath: /git
+        - image: alpine/git
+          name: git-pull
+          restartPolicy: Always
+          env:
+            - name: UPDATE_INTERVAL
+              valueFrom:
+                configMapKeyRef:
+                  name: skiff
+                  key: update-interval
+          command:
+            - sh
+            - -c
+            - while true; do git pull; sleep $(UPDATE_INTERVAL); done
+          volumeMounts:
+            - name: documentroot
+              mountPath: /git
+      containers:
+        - image: nginx
+          name: nginx
+          resources: {}
+          livenessProbe:
+            httpGet:
+              path: /up
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 30
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: documentroot
+              mountPath: /etc/nginx/conf.d
+              readOnly: true
+              subPath: config
+            - name: documentroot
+              mountPath: /site
+              readOnly: true

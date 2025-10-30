@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: skiff
+data:
+  git-branch: main
+  update-interval: "10"

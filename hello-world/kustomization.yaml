@@ -1,0 +1,26 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+metadata:
+  name: hello-world
+
+namespace: hello-world
+
+resources:
+  - namespace.yaml
+  - ./../base
+
+labels:
+  - includeSelectors: true
+    pairs:
+      app: hello-world
+
+patches:
+  - path: host.patch.yaml
+    target:
+      kind: Ingress
+      name: skiff
+  - path: tls.patch.yaml
+    target:
+      kind: Ingress
+      name: skiff
+  - path: git-url.patch.yaml
