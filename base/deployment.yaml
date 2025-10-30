@@ -15,7 +15,7 @@ spec:
         app: skiff
     spec:
       volumes:
-        - name: documentroot
+        - name: web-data
           emptyDir: {}
       initContainers:
         - image: alpine/git
@@ -38,7 +38,7 @@ spec:
                   name: skiff
                   key: git-url
           volumeMounts:
-            - name: documentroot
+            - name: web-data
               mountPath: /git
         - image: alpine/git
           name: git-pull
@@ -54,7 +54,7 @@ spec:
             - -c
             - while true; do git pull; sleep $(UPDATE_INTERVAL); done
           volumeMounts:
-            - name: documentroot
+            - name: web-data
               mountPath: /git
       containers:
         - image: nginx
@@ -69,10 +69,10 @@ spec:
           ports:
             - containerPort: 80
           volumeMounts:
-            - name: documentroot
+            - name: web-data
               mountPath: /etc/nginx/conf.d
               readOnly: true
               subPath: config
-            - name: documentroot
+            - name: web-data
               mountPath: /site
               readOnly: true
