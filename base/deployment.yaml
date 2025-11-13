@@ -31,12 +31,12 @@ spec:
               valueFrom:
                 configMapKeyRef:
                   name: skiff
-                  key: git-branch
+                  key: git_branch
             - name: GIT_URL
               valueFrom:
                 secretKeyRef:
                   name: skiff
-                  key: git-url
+                  key: git_url
           volumeMounts:
             - name: web-data
               mountPath: /git
@@ -48,7 +48,7 @@ spec:
               valueFrom:
                 configMapKeyRef:
                   name: skiff
-                  key: update-interval
+                  key: update_interval
           command:
             - sh
             - -c
@@ -59,13 +59,15 @@ spec:
       containers:
         - image: nginx
           name: nginx
-          resources: {}
+          imagePullPolicy: always
           livenessProbe:
             httpGet:
               path: /up
               port: 80
-            initialDelaySeconds: 5
-            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /up
+              port: 80
           ports:
             - containerPort: 80
           volumeMounts:

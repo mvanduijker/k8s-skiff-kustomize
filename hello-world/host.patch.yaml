@@ -1,3 +1,6 @@
 - op: replace
-  path: /spec/rules/0/http/host
-  value: www.hello-world.com
+  path: /spec/rules/0/host
+  value: hello-world.duyker.nl
+- op: replace
+  path: /spec/ingressClassName
+  value: traefik

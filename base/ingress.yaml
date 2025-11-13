@@ -4,8 +4,8 @@ metadata:
   name: skiff
 spec:
   rules:
-    - http:
-        host: www.example.com
+    - host: www.example.com
+      http:
         paths:
           - backend:
               service:
