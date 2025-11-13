@@ -6,7 +6,6 @@ metadata:
 resources:
   - service.yaml
   - secret.yaml
-  - ingress.yaml
   - configmap.yaml
   - deployment.yaml
 

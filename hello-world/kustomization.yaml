@@ -9,6 +9,9 @@ resources:
   - namespace.yaml
   - ./../base
 
+components:
+  - ../components/ingress
+
 labels:
   - includeSelectors: true
     pairs:
