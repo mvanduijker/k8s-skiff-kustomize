@@ -3,5 +3,5 @@ kind: ConfigMap
 metadata:
   name: skiff
 data:
-  git_branch: main
-  update_interval: "10"
+  gitBranch: main
+  updateInterval: "10"

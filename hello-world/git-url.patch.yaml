@@ -3,4 +3,4 @@ kind: Secret
 metadata:
   name: skiff
 data:
-  git_url: aHR0cHM6Ly9naXRodWIuY29tL212YW5kdWlqa2VyL2s4cy1za2lmZi1zaXRlLXRlbXBsYXRl
+  gitUrl: aHR0cHM6Ly9naXRodWIuY29tL212YW5kdWlqa2VyL2s4cy1za2lmZi1zaXRlLXRlbXBsYXRl
